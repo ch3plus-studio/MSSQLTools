@@ -1,0 +1,86 @@
+﻿<Window x:Class="MSSQLTools.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MSSQLTools"
+        mc:Ignorable="d"
+        Title="Microsoft SQL Server Tool" Height="350" Width="650" ResizeMode="CanMinimize">
+    <Grid>
+        <DockPanel></DockPanel>
+        <TabControl x:Name="tabControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TabStripPlacement="Left" HorizontalContentAlignment="Left" >
+            <TabItem x:Name="tabConnex" Header="1. Connect">
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Server Name" Grid.Column="0" Grid.Row="0"/>
+                    <TextBox Name="tbServerName" Grid.Column="1" Grid.Row="0"/>
+                    <Label Content="User Name" Grid.Column="0" Grid.Row="1"/>
+                    <TextBox Name="tbUserName" Grid.Column="1" Grid.Row="1"/>
+                    <Label Content="Password" Grid.Column="0" Grid.Row="2"/>
+                    <TextBox Name="tbPassword" Grid.Column="1" Grid.Row="2"/>
+                    <DockPanel Grid.Column="1" Grid.Row ="3">
+                        <Button x:Name="btnConnect" Content="Connect" Click="btnConnect_Click" Width="65" DockPanel.Dock="Right" />
+                        <WrapPanel>
+                            <Button x:Name="btnLoadConnect" Content="Load" Click="btnLoadConnect_Click" Margin="0,0,5,0" Width="50"/>
+                            <Label x:Name="lblDragToLoadConnect" Content="[Drag *.connex file to here to load]" AllowDrop="True" Margin="0,0,5,0" Drop="lblDragToLoadConnect_Drop" Background="#FF58EA21"/>
+                            <Button x:Name="btnSaveConnect" Content="Save" Click="btnSaveConnect_Click" Width="50"/>
+                        </WrapPanel>
+                    </DockPanel>
+                    <Label Content="Database" Grid.Column="0" Grid.Row="5"/>
+                    <DockPanel Grid.Column="1" Grid.Row="5">
+                        <Button x:Name="btnChooseDB" HorizontalAlignment="Right" VerticalAlignment="Stretch" Click="btnChooseDB_Click" Width="65" DockPanel.Dock="Right" Content="Choose"/>
+                        <ComboBox x:Name="cbDB" Margin="0,0,5,0"/>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="2. Backup / Dump" x:Name="tabBackup">
+                <StackPanel>
+                    <Label Content="Save all stored procedure and user defined functions with dump log in this folder."/>
+                    <local:FolderSelectTextBox x:Name="fsDumpDest" HorizontalAlignment="Stretch" IsFolderPicker="True"/>
+                    <TextBlock TextWrapping="WrapWithOverflow" Text="NOTE:&#xA;1. &quot;dump.yyyymmdd.hhmmss.log&quot; and &quot;dump.yyyymmdd.hhmmss.err&quot; will be created in above folder.&#xA;2. All script files are with extension &quot;.sql&quot;&#xA;3. Stored Procedures will be dumped into folder &quot;stored procedure&quot;&#xA;4. User Defined Functions will be dumped into folder &quot;user defined function&quot;" />
+                    <Button HorizontalAlignment="Right" x:Name="btnDump" Content="Dump" Width="75" Click="btnDump_Click"/>
+                    <Label Content="Progress"/>
+                    <ProgressBar x:Name="pbDumpProgress" Height="15"/>
+                    <Label x:Name="lblDumpStatus" Content="Waiting..."/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="3. Generate Encrypted Script" x:Name="tabGenScript">
+                <StackPanel>
+                    <TextBlock TextWrapping="WrapWithOverflow" Text="Generate scripts of encrypted stored procedure and user defined functions with log in this folder."/>
+                    <local:FolderSelectTextBox x:Name="fsGenScriptDest" HorizontalAlignment="Stretch" IsFolderPicker="True"/>
+                    <TextBlock TextWrapping="WrapWithOverflow" Text="NOTE:&#xA;1. &quot;gen.yyyymmdd.hhmmss.log&quot; and &quot;gen.yyyymmdd.hhmmss.err&quot; will be created in above folder.&#xA;2. All script files are with extension &quot;.sql&quot;&#xA;3. Stored Procedures will be dumped into folder &quot;stored procedure&quot;&#xA;4. User Defined Functions will be dumped into folder &quot;user defined function&quot;" />
+                    <Button HorizontalAlignment="Right" x:Name="btnGen" Content="Gen Script" Width="75" Click="btnGen_Click"/>
+                    <Label Content="Progress"/>
+                    <ProgressBar x:Name="pbGenProgress" Height="15"/>
+                    <Label x:Name="lblGenStatus" Content="Waiting..."/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="4. Encrypt" x:Name="tabEncrypt">
+                <StackPanel>
+                    <TextBlock TextWrapping="WrapWithOverflow" Text="Encrypt stored procedure and user defined functions with &quot;WITH ENCRYPTION&quot; and put log in this folder."/>
+                    <local:FolderSelectTextBox x:Name="fsEncryptLogDest" HorizontalAlignment="Stretch" IsFolderPicker="True"/>
+                    <TextBlock TextWrapping="WrapWithOverflow" Text="NOTE: &quot;enc.yyyymmdd.hhmmss.log&quot; and &quot;enc.yyyymmdd.hhmmss.err&quot; will be created in above folder" />
+                    <Button HorizontalAlignment="Right" x:Name="btnEncrypt" Content="Encrypt" Width="75" Click="btnEncrypt_Click"/>
+                    <Label Content="Progress"/>
+                    <ProgressBar x:Name="pbEncryptProgress" Height="15"/>
+                    <Label x:Name="lblEncryptStatus" Content="Waiting..."/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="About" Visibility="Hidden"/>
+        </TabControl>
+    </Grid>
+    
+</Window>
